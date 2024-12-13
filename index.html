@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会話のネタサイコロ</title>
+    <style>
+        .dice-output {
+            text-align: center;
+        }
+
+        #display {
+            background-image: linear-gradient(rgb(103, 220, 255), rgb(228, 255, 203));
+            width: 500px;
+            text-align: center;
+            border-radius: 2em;
+        }
+
+        #output {
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dice-output">
+        <button class="dice-roll">サイコロを振る</button>
+    </div>
+    <div id="output"></div>
+    <script>
+        const diceRollBtn = document.querySelector(".dice-roll");
+        const outputDiv = document.getElementById("output");
+
+        diceRollBtn.addEventListener("click", () => {
+            const diceNum = Math.floor(Math.random() * 21) + 1;
+            const apiUrl = `https://api.sssapi.app/1dpQL6uGtOxywqJeuxM7Y/${diceNum}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const content = "<div id='display'> 話題: " + data.topics;
+                    outputDiv.innerHTML = content;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    outputDiv.textContent = 'データの取得に失敗しました';
+                });
+        });
+    </script>
+</body>
+
+</html>
